@@ -237,6 +237,17 @@ section{padding:100px 48px;position:relative;z-index:1;max-width:1200px;margin:0
 .projects-slider{display:none;flex-direction:row;gap:0;overflow-x:auto;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x mandatory;padding:0;margin:0}
 .projects-slider::-webkit-scrollbar{display:none}
 .projects-slider.active{display:flex}
+.projects-slider{perspective:1200px}
+.projects-slider .proj-card{transform-style:preserve-3d;backface-visibility:hidden}
+.projects-slider .proj-card.center{transform:translateZ(30px) scale(1.02);z-index:3;box-shadow:0 18px 60px rgba(0,0,0,0.45)}
+.projects-slider .proj-card.side{transform:rotateY(12deg) translateZ(-40px) scale(0.94);opacity:0.95;filter:blur(0.2px);z-index:1}
+.slider-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:8px;border:2px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.45);color:var(--accent);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(6px);z-index:120}
+.slider-arrow:hover{background:rgba(0,0,0,0.6);transform:translateY(-50%) scale(1.03)}
+.slider-arrow:active{transform:translateY(-50%) scale(0.98)}
+.slider-arrow.prev{left:12px}
+.slider-arrow.next{right:12px}
+.slider-arrow svg{width:18px;height:18px;fill:currentColor}
+@media(min-width:769px){.slider-arrow{display:none}}
 .proj-card{
   background:var(--surface);border:2px solid var(--border);
   padding:24px;position:relative;overflow:hidden;word-wrap:break-word;
@@ -975,6 +986,12 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
 
   <!-- Mobile Slider -->
   <div class="projects-slider" id="projectsSlider">
+    <button class="slider-arrow prev" id="projPrev" aria-label="Previous project">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    <button class="slider-arrow next" id="projNext" aria-label="Next project">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m8.59 16.59 6-6-6-6L10 4l6 8-6 8z"/></svg>
+    </button>
 
     <!-- PROJECT 1: IntelliAssist (featured) -->
     <div class="proj-card featured">
@@ -1558,6 +1575,50 @@ if (projectsSlider) {
     const diff = touchStartX - touchEndX;
     projectsSlider.scrollLeft += diff * 0.5;
   }, { passive: true });
+
+  // Arrow buttons
+  const prevBtn = document.getElementById('projPrev');
+  const nextBtn = document.getElementById('projNext');
+  function getCardWidth() {
+    const card = projectsSlider.querySelector('.proj-card');
+    return card ? card.getBoundingClientRect().width + 16 : projectsSlider.clientWidth * 0.9;
+  }
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    projectsSlider.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+  });
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    projectsSlider.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+  });
+
+  // Center detection and 3D transform updates
+  let rafId = null;
+  function updateCenteredCard() {
+    const sliderRect = projectsSlider.getBoundingClientRect();
+    const centerX = sliderRect.left + sliderRect.width / 2;
+    const cards = Array.from(projectsSlider.querySelectorAll('.proj-card'));
+    let closest = null; let closestDist = Infinity;
+    cards.forEach(c => {
+      const r = c.getBoundingClientRect();
+      const cardCenter = r.left + r.width / 2;
+      const dist = Math.abs(centerX - cardCenter);
+      if (dist < closestDist) { closestDist = dist; closest = c; }
+    });
+    cards.forEach(c => c.classList.remove('center','side'));
+    if (closest) {
+      closest.classList.add('center');
+      // mark neighbors as side
+      const idx = cards.indexOf(closest);
+      if (cards[idx-1]) cards[idx-1].classList.add('side');
+      if (cards[idx+1]) cards[idx+1].classList.add('side');
+    }
+  }
+  projectsSlider.addEventListener('scroll', () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(updateCenteredCard);
+  });
+  window.addEventListener('resize', () => { if (rafId) cancelAnimationFrame(rafId); rafId = requestAnimationFrame(updateCenteredCard); });
+  // init
+  setTimeout(updateCenteredCard, 120);
 }
 
 // Mobile Menu Toggle - Enhanced
