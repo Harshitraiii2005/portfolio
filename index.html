@@ -234,6 +234,9 @@ section{padding:100px 48px;position:relative;z-index:1;max-width:1200px;margin:0
 
 /* ─── PROJECTS ─── */
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+.projects-slider{display:none;flex-direction:row;gap:0;overflow-x:auto;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x mandatory;padding:0;margin:0}
+.projects-slider::-webkit-scrollbar{display:none}
+.projects-slider.active{display:flex}
 .proj-card{
   background:var(--surface);border:2px solid var(--border);
   padding:24px;position:relative;overflow:hidden;word-wrap:break-word;
@@ -440,8 +443,9 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
   .exp-company{font-size:9px;margin-bottom:4px}
   .exp-desc{font-size:11px;line-height:1.5}
   
-  .projects-grid{grid-template-columns:1fr;gap:10px}
-  .proj-card{padding:12px;min-height:250px}
+  .projects-grid{display:none}
+  .projects-slider{display:flex}
+  .proj-card{padding:12px;min-height:280px;min-width:calc(100vw - 32px);flex-shrink:0;scroll-snap-align:start;scroll-margin:16px}
   .proj-card.featured{border:2px solid var(--accent);grid-column:span 1}
   .proj-name{font-size:14px;margin-bottom:6px;word-wrap:break-word}
   .proj-desc{font-size:11px;line-height:1.5;margin-bottom:8px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical}
@@ -509,8 +513,9 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
   .exp-company{font-size:10px}
   .exp-desc{font-size:12px;line-height:1.6}
   
-  .projects-grid{grid-template-columns:1fr;gap:11px}
-  .proj-card{padding:14px;min-height:280px}
+  .projects-grid{display:none}
+  .projects-slider{display:flex}
+  .proj-card{padding:14px;min-height:300px;min-width:calc(100vw - 28px);flex-shrink:0;scroll-snap-align:start;scroll-margin:14px}
   .proj-card.featured{grid-column:span 1}
   .proj-name{font-size:15px;margin-bottom:7px}
   .proj-desc{font-size:12px;margin-bottom:10px;line-clamp:3;-webkit-line-clamp:3;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
@@ -563,8 +568,9 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
   .exp-company{font-size:11px;margin-bottom:8px}
   .exp-desc{font-size:13px;line-height:1.7}
   
-  .projects-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
-  .proj-card{padding:18px;min-height:300px}
+  .projects-grid{display:none}
+  .projects-slider{display:flex}
+  .proj-card{padding:18px;min-height:320px;min-width:calc(100vw - 48px);flex-shrink:0;scroll-snap-align:start;scroll-margin:24px}
   .proj-card.featured{grid-column:span 1}
   .proj-name{font-size:16px;margin-bottom:10px}
   .proj-desc{font-size:13px;margin-bottom:12px;line-clamp:3;-webkit-line-clamp:3;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
@@ -805,6 +811,7 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
   <div class="section-title">Things I've <span>Built</span></div>
   <div class="section-sub">6 shipped projects across AI/ML, DevOps, and backend engineering — plus one ongoing SaaS in stealth.</div>
 
+  <!-- Desktop Grid -->
   <div class="projects-grid">
 
     <!-- PROJECT 1: IntelliAssist (featured) -->
@@ -965,8 +972,167 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
     </div>
 
   </div>
-</section>
-</div>
+
+  <!-- Mobile Slider -->
+  <div class="projects-slider" id="projectsSlider">
+
+    <!-- PROJECT 1: IntelliAssist (featured) -->
+    <div class="proj-card featured">
+      <div class="proj-top">
+        <span class="proj-num">01 · FEATURED</span>
+        <div class="proj-links">
+          <a href="https://github.com/Harshitraiii2005/intelliassist-rag-gpt2" target="_blank">↗ github</a>
+        </div>
+      </div>
+      <div class="proj-name">IntelliAssist — RAG-Enhanced AI Assistant</div>
+      <div class="proj-desc">
+        Production-ready Retrieval-Augmented Generation system powered by fine-tuned GPT-2 with LoRA adapters.
+        Achieves 96% test pass rate across 25 comprehensive test cases with 0.15s average response time.
+        Features hybrid FAISS + BM25 search, MMR diversity ranking, hallucination detection, and multimodal I/O
+        (Whisper speech-to-text + Edge TTS output). Fully Dockerized and scalable.
+      </div>
+      <div class="proj-stat-row">
+        <div class="proj-stat"><strong>96%</strong><span>Pass Rate</span></div>
+        <div class="proj-stat"><strong>0.15s</strong><span>Avg Response</span></div>
+        <div class="proj-stat"><strong>95%</strong><span>Param Reduction (LoRA)</span></div>
+        <div class="proj-stat"><strong>2%</strong><span>Hallucination Rate</span></div>
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">GPT-2</span><span class="tag">LoRA</span>
+        <span class="tag">FAISS</span><span class="tag">BM25</span><span class="tag">Whisper</span>
+        <span class="tag purple">RAG</span><span class="tag purple">LangChain</span>
+        <span class="tag green">Docker</span><span class="tag green">Gradio</span>
+      </div>
+    </div>
+
+    <!-- PROJECT 2: PaperIntel -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-num">02</span>
+        <div class="proj-links">
+          <a href="https://github.com/Harshitraiii2005/research-paper-summarizer" target="_blank">↗ github</a>
+        </div>
+      </div>
+      <div class="proj-name">PaperIntel AI — Research Paper Analyzer</div>
+      <div class="proj-desc">
+        Multi-agent AI platform for research paper analysis using LangGraph orchestration. Automatically
+        summarizes papers, detects methodology flaws, generates insights, compares related work,
+        and produces PPTX presentations. Deployed with FastAPI, PostgreSQL (Neon), Redis caching, and S3 vector storage.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">LangGraph</span><span class="tag">FastAPI</span>
+        <span class="tag">FAISS</span><span class="tag purple">Multi-Agent</span>
+        <span class="tag purple">Groq LLM</span><span class="tag green">Docker</span>
+        <span class="tag green">K8s</span><span class="tag green">ArgoCD</span>
+      </div>
+    </div>
+
+    <!-- PROJECT 3: Indic NLP -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-num">03 · LIVE</span>
+        <div class="proj-links">
+          <a href="https://github.com/Harshitraiii2005/Sentiment-Analysis-Text-Classification-Microservice" target="_blank">↗ github</a>
+          <a href="http://98.91.209.242/" target="_blank">↗ live</a>
+        </div>
+      </div>
+      <div class="proj-name">Indic NLP Microservice</div>
+      <div class="proj-desc">
+        Production-grade multilingual NLP microservice for English, Hindi, and Hinglish text.
+        Performs sentiment analysis (5-star BERT) and zero-shot topic classification (mDeBERTa).
+        Batch processes up to 20 texts per request with async Redis logging. Deployed on AWS with full Kubernetes + HPA.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">FastAPI</span><span class="tag">HuggingFace</span><span class="tag">PyTorch</span>
+        <span class="tag purple">BERT</span><span class="tag purple">mDeBERTa</span>
+        <span class="tag green">Docker</span><span class="tag green">K8s</span><span class="tag green">AWS EC2</span>
+      </div>
+    </div>
+
+    <!-- PROJECT 4: HireSparkAI -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-num">04 · LIVE</span>
+        <div class="proj-links">
+          <a href="https://github.com/Harshitraiii2005/HIRESPARK-AI" target="_blank">↗ github</a>
+          <a href="http://ec2-54-224-77-144.compute-1.amazonaws.com:31926/" target="_blank">↗ live</a>
+        </div>
+      </div>
+      <div class="proj-name">HireSparkAI — Talent Intelligence Platform</div>
+      <div class="proj-desc">
+        Enterprise-grade AI talent platform with dual RAG pipelines — one for freshers (0–3 yrs),
+        one for experienced candidates (3+ yrs). Features explainable AI matching, interview question generation,
+        resume optimization, and facial emotion recognition. Full GitOps via ArgoCD + Jenkins CI/CD.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">FastAPI</span><span class="tag">FAISS</span><span class="tag">Prefect</span>
+        <span class="tag purple">LangChain</span><span class="tag purple">Groq</span>
+        <span class="tag green">Docker</span><span class="tag green">K8s</span><span class="tag green">ArgoCD</span>
+      </div>
+    </div>
+
+    <!-- PROJECT 5: DocuScribe -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-num">05 · LIVE</span>
+        <div class="proj-links">
+          <a href="https://github.com/Harshitraiii2005/DocuScribe-SRT-PDF-Generator" target="_blank">↗ github</a>
+        </div>
+      </div>
+      <div class="proj-name">DocuScribe — AI Document Processor</div>
+      <div class="proj-desc">
+        Intelligent document processor extracting structured insights from PDFs/images using Claude vision API.
+        Generates SRT subtitles from video transcripts, auto-tags documents, and exports to multiple formats.
+        Built with async Celery task queue and Redis caching. Handles 100+ docs/day in production.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag">Claude Vision API</span><span class="tag">Celery</span>
+        <span class="tag">Redis</span><span class="tag purple">LLM APIs</span>
+        <span class="tag green">Docker</span><span class="tag green">AWS</span>
+      </div>
+    </div>
+
+    <!-- PROJECT 6: TurboLearn -->
+    <div class="proj-card">
+      <div class="proj-top">
+        <span class="proj-num">06</span>
+        <div class="proj-links">
+          <a href="https://github.com/Harshitraiii2005/turbolearn-ai-frontend" target="_blank">↗ github</a>
+        </div>
+      </div>
+      <div class="proj-name">TurboLearn — Adaptive Learning Platform</div>
+      <div class="proj-desc">
+        Full-stack e-learning platform with AI-powered personalized learning paths using LLMs. Features spaced
+        repetition (SM-2 algorithm), progress analytics, AI tutoring chat, and curated content recommendations.
+        Next.js + FastAPI + PostgreSQL. Handles 2,000+ concurrent users with sub-200ms latency.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Next.js</span><span class="tag">FastAPI</span><span class="tag">PostgreSQL</span>
+        <span class="tag purple">LLM</span><span class="tag purple">Memory</span><span class="tag purple">Tool Chains</span>
+      </div>
+    </div>
+
+    <!-- ONGOING SAAS -->
+    <div class="proj-card" style="border-color:rgba(124,58,237,0.25)">
+      <div class="proj-top">
+        <span class="proj-num">07 · IN PROGRESS</span>
+      </div>
+      <div class="ongoing-badge"><div style="width:6px;height:6px;background:#a78bfa;border-radius:50%;animation:pulse 1.5s ease infinite"></div>BUILDING NOW</div>
+      <div class="proj-name">DevIntel — Automated Competitive Intelligence for Dev Teams</div>
+      <div class="proj-desc">
+        SaaS product that solves a real pain: developers and engineering teams waste 3–5 hours/week manually
+        tracking competitors, changelogs, API updates, and tech trends. DevIntel monitors URLs (competitor sites,
+        GitHub repos, API docs, job boards) on a schedule, detects changes and new releases, and delivers
+        a clean markdown/PDF intelligence report via email, Slack, or webhook. The entire pipeline is agent-driven — no manual work.
+      </div>
+      <div class="proj-tags">
+        <span class="tag">Python</span><span class="tag purple">AI Agents</span>
+        <span class="tag purple">Web Monitoring</span><span class="tag purple">LLM Reports</span>
+        <span class="tag green">SaaS</span><span class="tag green">Slack / Email / Webhook</span>
+      </div>
+    </div>
+
+  </div>
 
 <!-- SKILLS -->
 <div class="section-wrap">
@@ -1340,6 +1506,59 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     });
   }
 });
+
+// Projects Slider for Mobile - Horizontal Swipe
+const projectsSlider = document.getElementById('projectsSlider');
+if (projectsSlider) {
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  // Mouse drag events
+  projectsSlider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    startX = e.pageX - projectsSlider.offsetLeft;
+    scrollLeft = projectsSlider.scrollLeft;
+    projectsSlider.style.cursor = 'grabbing';
+    projectsSlider.style.scrollBehavior = 'auto';
+  });
+
+  projectsSlider.addEventListener('mouseleave', () => {
+    isDown = false;
+    projectsSlider.style.scrollBehavior = 'smooth';
+  });
+
+  projectsSlider.addEventListener('mouseup', () => {
+    isDown = false;
+    projectsSlider.style.scrollBehavior = 'smooth';
+  });
+
+  projectsSlider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - projectsSlider.offsetLeft;
+    const walk = (x - startX) * 2;
+    projectsSlider.scrollLeft = scrollLeft - walk;
+  });
+
+  // Touch events
+  let touchStartX = 0;
+  projectsSlider.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    projectsSlider.style.scrollBehavior = 'auto';
+  });
+
+  projectsSlider.addEventListener('touchend', () => {
+    projectsSlider.style.scrollBehavior = 'smooth';
+  });
+
+  projectsSlider.addEventListener('touchmove', (e) => {
+    if (!touchStartX) return;
+    const touchEndX = e.touches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    projectsSlider.scrollLeft += diff * 0.5;
+  }, { passive: true });
+}
 
 // Mobile Menu Toggle - Enhanced
 const mobileMenuToggle = document.getElementById('mobileMenuToggle');
