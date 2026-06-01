@@ -67,13 +67,21 @@ nav{
 }
 .nav-logo{
   font-family:var(--mono);font-size:14px;color:var(--accent);letter-spacing:0.1em;
+  cursor:pointer;
 }
 .nav-logo span{color:var(--muted)}
+.nav-menu-toggle{
+  display:none;background:none;border:none;color:var(--accent);font-size:24px;cursor:pointer;z-index:101;
+  transition:color 0.2s;padding:4px;
+}
+.nav-menu-toggle:hover{color:#33ecff}
+.nav-menu-toggle.active{color:#33ecff}
 .nav-links{display:flex;gap:32px;list-style:none}
 .nav-links a{
   font-family:var(--mono);font-size:11px;color:var(--muted2);
   text-decoration:none;letter-spacing:0.08em;
   transition:color 0.2s;
+  display:block;padding:4px 0;
 }
 .nav-links a:hover,.nav-links a.active{color:var(--accent)}
 .nav-cta{
@@ -83,6 +91,23 @@ nav{
   cursor:pointer;transition:all 0.2s;text-decoration:none;
 }
 .nav-cta:hover{background:var(--accent);color:var(--bg)}
+.nav-mobile-menu{
+  display:none;position:fixed;top:56px;left:0;right:0;z-index:99;
+  background:rgba(8,11,18,0.95);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+  flex-direction:column;gap:0;max-height:calc(100vh - 56px);
+  overflow-y:auto;
+}
+.nav-mobile-menu.active{display:flex}
+.nav-mobile-menu a{
+  padding:12px 24px;font-family:var(--mono);font-size:12px;
+  color:var(--muted2);text-decoration:none;letter-spacing:0.08em;
+  border-bottom:1px solid var(--border);
+  transition:color 0.2s,background 0.2s;
+}
+.nav-mobile-menu a:hover,.nav-mobile-menu a.active{
+  color:var(--accent);background:rgba(0,230,255,0.05);
+}
 
 /* ─── HERO ─── */
 #home{
@@ -365,15 +390,162 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
 .modal-body iframe{width:100%;height:600px;border:none;border-radius:4px}
 
 /* ─── RESPONSIVE ─── */
-@media(max-width:768px){
-  nav{padding:16px 24px}
+/* Mobile-first approach for all breakpoints */
+
+/* Small phones: 320px - 480px */
+@media(max-width:480px){
+  nav{padding:12px 16px;gap:8px}
+  .nav-logo{font-size:12px}
+  .nav-menu-toggle{display:block}
   .nav-links{display:none}
-  #home{padding:100px 24px 60px}
-  section{padding:70px 24px}
+  .nav-cta{font-size:10px;padding:6px 14px;white-space:nowrap}
+  .nav-mobile-menu{display:none}
+  .nav-mobile-menu.active{display:flex}
+  .nav-mobile-menu a{font-size:11px;padding:14px 16px}
+  
+  #home{padding:80px 16px 40px;min-height:auto}
+  .hero-inner{max-width:100%}
+  .hero-badge{font-size:10px;padding:5px 10px}
+  h1.hero-name{font-size:clamp(32px,8vw,48px);margin-bottom:12px}
+  .hero-role{font-size:13px;margin-bottom:16px}
+  .hero-bio{font-size:14px;line-height:1.7;margin-bottom:24px}
+  .hero-actions{flex-direction:column;gap:10px}
+  .btn{padding:10px 16px;font-size:11px;width:100%;justify-content:center;display:flex}
+  .hero-stats{flex-direction:column;gap:16px;padding-top:24px}
+  
+  section{padding:50px 16px}
+  .section-eyebrow{font-size:10px}
+  .section-title{font-size:clamp(24px,6vw,32px);margin-bottom:12px}
+  .section-sub{font-size:13px;margin-bottom:32px}
+  
+  .about-grid{grid-template-columns:1fr;gap:24px}
+  .about-text p{font-size:14px}
+  .about-row{font-size:11px;padding:8px 0}
+  .exp-card{padding:16px;margin-bottom:12px}
+  .exp-role{font-size:13px}
+  .exp-company{font-size:10px;margin-bottom:6px}
+  .exp-desc{font-size:12px;line-height:1.6}
+  
+  .projects-grid{grid-template-columns:1fr;gap:12px}
+  .proj-card{padding:16px;margin-bottom:8px}
+  .proj-card.featured{grid-column:span 1;border-color:rgba(0,230,255,0.15)}
+  .proj-name{font-size:16px;margin-bottom:8px}
+  .proj-desc{font-size:12px;margin-bottom:12px;line-height:1.6}
+  .proj-stat-row{flex-direction:column;gap:12px;padding:12px 0;margin:12px 0}
+  .proj-stat strong{font-size:14px}
+  .proj-stat span{font-size:9px}
+  .proj-tags{gap:4px}
+  .tag{font-size:9px;padding:2px 8px}
+  
+  .skills-layout{grid-template-columns:1fr;gap:12px}
+  .skill-group{padding:16px}
+  .skill-group-title{font-size:10px;margin-bottom:12px}
+  .skill-row{margin-bottom:10px}
+  .skill-name{font-size:11px}
+  .skill-pct{font-size:9px}
+  
+  .contact-grid{grid-template-columns:1fr;gap:24px}
+  .contact-value{font-size:14px;word-break:break-all}
+  .form-field input,.form-field textarea{font-size:12px;padding:10px 12px}
+  .form-field textarea{min-height:100px}
+  .social-link{font-size:11px;padding:10px 12px}
+  
+  .resume-grid{grid-template-columns:1fr;gap:20px}
+  .resume-card{padding:20px;text-align:center}
+  .resume-icon{font-size:40px;margin-bottom:12px}
+  .resume-fn{font-size:12px}
+  .resume-desc{font-size:12px}
+  .resume-meta-row{gap:16px;padding:12px 0;margin-bottom:16px}
+  .resume-meta-item strong{font-size:13px}
+  .resume-meta-item span{font-size:9px}
+  .highlight-card{padding:16px;margin-bottom:12px}
+  .hl-label{font-size:9px;margin-bottom:10px}
+  .hl-item{font-size:12px;gap:8px}
+  
+  footer{padding:16px;gap:4px;font-size:10px}
+  
+  .scroll-ind{bottom:20px;left:16px;gap:8px;font-size:9px}
+  .scroll-line{width:20px}
+  
+  .modal-content{width:95%;max-width:100%;max-height:90vh;border-radius:4px}
+  .modal-body iframe{height:400px}
+}
+
+/* Tablets: 481px - 768px */
+@media(max-width:768px){
+  nav{padding:14px 32px}
+  .nav-logo{font-size:13px}
+  .nav-menu-toggle{display:none}
+  .nav-links{display:flex;flex-wrap:wrap;gap:24px;font-size:10px}
+  .nav-cta{font-size:10px;padding:7px 16px}
+  .nav-mobile-menu{display:none}
+  
+  #home{padding:90px 32px 50px}
+  .hero-inner{max-width:100%}
+  h1.hero-name{font-size:clamp(40px,7vw,56px)}
+  .hero-role{font-size:14px}
+  .hero-bio{font-size:15px;margin-bottom:32px}
+  .hero-actions{flex-wrap:wrap;gap:12px}
+  .btn{flex:1 1 auto;min-width:120px}
+  .hero-stats{gap:32px;flex-wrap:wrap}
+  
+  section{padding:60px 32px}
+  .section-title{font-size:clamp(28px,5vw,40px)}
+  .section-sub{font-size:14px;margin-bottom:40px}
+  
   .about-grid,.contact-grid,.resume-grid{grid-template-columns:1fr}
+  .exp-card{padding:20px}
+  .about-text p{font-size:14px}
+  
+  .projects-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .proj-card{padding:20px}
   .proj-card.featured{grid-column:span 1}
-  .hero-stats{gap:28px}
-  footer{padding:24px;flex-direction:column;gap:8px;text-align:center}
+  .proj-name{font-size:17px}
+  .proj-desc{font-size:13px}
+  .proj-tags{gap:5px}
+  .tag{font-size:10px}
+  
+  .skills-layout{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .skill-group{padding:20px}
+  
+  .modal-body iframe{height:500px}
+}
+
+/* Small desktops/iPads: 769px - 1024px */
+@media(max-width:1024px){
+  nav{padding:16px 40px}
+  
+  #home{padding:100px 40px 60px}
+  section{padding:70px 40px}
+  
+  .hero-stats{gap:40px}
+  .projects-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .skills-layout{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+  
+  .resume-grid,.contact-grid,.about-grid{gap:30px}
+}
+
+/* Large desktops: 1025px+ */
+@media(min-width:1025px){
+  nav{padding:18px 48px}
+  #home{padding:120px 48px 80px}
+  section{padding:100px 48px}
+  
+  .projects-grid{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .resume-grid{grid-template-columns:1fr 1fr}
+}
+
+/* Touch device enhancements */
+@media(hover:none) and (pointer:coarse){
+  .btn-primary,.btn-outline,.tag,.social-link,.proj-card{
+    -webkit-tap-highlight-color:transparent;
+    transition:all 0.3s ease;
+  }
+  .btn-primary:active,.btn-outline:active{opacity:0.8}
+  .tag:active{transform:scale(1.08);background:rgba(0,230,255,0.15)}
+  
+  .proj-card:active{transform:translateY(-4px)}
+  .nav-links a:active,.social-link:active{color:var(--accent)}
 }
 </style>
 </head>
@@ -381,7 +553,7 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">harshit<span>.rai</span></div>
+  <div class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">harshit<span>.rai</span></div>
   <ul class="nav-links">
     <li><a href="#home" class="active">~/home</a></li>
     <li><a href="#about">~/about</a></li>
@@ -390,8 +562,19 @@ a::before,.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;
     <li><a href="#skills">~/skills</a></li>
     <li><a href="#contact">~/contact</a></li>
   </ul>
+  <button class="nav-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">☰</button>
   <a href="#contact" class="nav-cta">hire me →</a>
 </nav>
+
+<!-- Mobile Navigation Menu -->
+<div class="nav-mobile-menu" id="mobileMobileMenu">
+  <a href="#home" class="active">~/home</a>
+  <a href="#about">~/about</a>
+  <a href="#experience">~/experience</a>
+  <a href="#projects">~/projects</a>
+  <a href="#skills">~/skills</a>
+  <a href="#contact">~/contact</a>
+</div>
 
 <!-- HERO -->
 <div id="home" style="position:relative;z-index:1">
@@ -1032,6 +1215,43 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         if (target) target.scrollIntoView({ behavior: 'smooth' });
       }
     });
+  }
+});
+
+// Mobile Menu Toggle
+const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+const mobileMenu = document.getElementById('mobileMobileMenu');
+const mobileLinks = mobileMenu.querySelectorAll('a');
+
+if (mobileMenuToggle) {
+  mobileMenuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('active');
+    mobileMenuToggle.classList.toggle('active');
+  });
+}
+
+// Close mobile menu when a link is clicked
+mobileLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('active');
+    mobileMenuToggle.classList.remove('active');
+  });
+});
+
+// Close mobile menu when viewport is resized to larger screen
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) {
+    mobileMenu.classList.remove('active');
+    mobileMenuToggle.classList.remove('active');
+  }
+});
+
+// Prevent body scroll when mobile menu is open
+mobileMenuToggle.addEventListener('click', () => {
+  if (mobileMenu.classList.contains('active')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
   }
 });
 </script>
